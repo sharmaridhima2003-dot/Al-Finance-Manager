@@ -93,7 +93,16 @@ if st.button("🔍 Predict Burnout"):
         level = "✅ HEALTHY"
         advice = "Excellent financial discipline!"
         color = "green"
+st.subheader("📅 Monthly Spending Trend")
 
+# Load your dataset (if saved)
+try:
+    df_hist = pd.read_csv("monthly_summary.csv")
+
+    st.line_chart(df_hist[['total_expense', 'income']])
+
+except:
+    st.info("Monthly data not available")
     # ── Output ────────────────────────────
     st.subheader("📊 Results")
 
