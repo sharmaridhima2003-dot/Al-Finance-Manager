@@ -97,7 +97,7 @@ if st.button("🔍 Predict Burnout"):
 
     with col1:
         st.metric("Actual Burnout", f"{burnout:.1%}")
-        st.metric("Predicted Burnout", f"{pred:.1%}")
+        st.metric("Next Month Burnout", f"{pred:.1%}")
         st.markdown(f"### {level}")
         st.write(f"💡 {advice}")
 
