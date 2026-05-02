@@ -76,34 +76,21 @@ if st.button("🔍 Predict Burnout"):
     pred = model.predict(input_df)[0]
     pred = float(np.clip(pred, 0, 1))
 
-    # ── Risk levels ───────────────────────
+    # Risk levels
     if pred >= 0.90:
         level = "🚨 CRITICAL"
         advice = "Cut all non-essential spending immediately!"
-        color = "red"
     elif pred >= 0.75:
         level = "⚠️ WARNING"
         advice = "Reduce shopping and entertainment."
-        color = "orange"
     elif pred >= 0.55:
         level = "📊 MODERATE"
         advice = "Try increasing savings."
-        color = "blue"
     else:
         level = "✅ HEALTHY"
         advice = "Excellent financial discipline!"
-        color = "green"
-st.subheader("📅 Monthly Spending Trend")
 
-# Load your dataset (if saved)
-try:
-    df_hist = pd.read_csv("monthly_summary.csv")
-
-    st.line_chart(df_hist[['total_expense', 'income']])
-
-except:
-    st.info("Monthly data not available")
-    # ── Output ────────────────────────────
+    # ── RESULTS ───────────────────────────
     st.subheader("📊 Results")
 
     col1, col2 = st.columns(2)
@@ -117,7 +104,7 @@ except:
         st.metric("Total Expense", f"₹{total_exp:,}")
         st.metric("Savings", f"₹{income - total_exp:,}")
 
-    # ── Charts ────────────────────────────
+    # ── EXPENSE CHART ─────────────────────
     st.subheader("📈 Expense Breakdown")
 
     df_exp = pd.DataFrame(expenses.items(), columns=['Category', 'Amount'])
@@ -130,8 +117,19 @@ except:
     with col4:
         st.write(df_exp)
 
-    # ── Pie chart ─────────────────────────
+    # ── PIE CHART ─────────────────────────
     st.subheader("🥧 Spending Distribution")
     st.pyplot(df_exp.set_index('Category').plot.pie(
         y='Amount', autopct='%1.1f%%', figsize=(5,5)
     ).figure)
+
+    # ── YEARLY TREND ──────────────────────
+    st.subheader("📅 Monthly Spending Trend")
+
+    try:
+        df_hist = pd.read_csv("monthly_summary.csv")
+
+        st.line_chart(df_hist[['total_expense', 'income']])
+
+    except:
+        st.info("Monthly data not available")
